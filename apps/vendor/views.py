@@ -15,12 +15,12 @@ def vendor_signup(request):
         if form.is_valid():
             user = form.save()
 
-            login(request,user)
+            login(request, user)
 
             vendor = Vendor.objects.create(name=user.username, created_by=user)
-            return redirect('home')
-        else:
-            form = UserCreationForm()
+            return redirect('frontpage')
+    else:
+        form = UserCreationForm()
 
     return render(request, 'vendor/sign_up.html', {'form': form})
 
@@ -30,7 +30,7 @@ def vendor_admin(request):
     vendor = request.user.vendor
     products = vendor.products.all()
 
-    return render(request, 'vendor/vendor_admin.html', {'vendor': vendor, 'producst': products})
+    return render(request, 'vendor/vendor_admin.html', {'vendor': vendor, 'products': products})
 
 
 @login_required
@@ -50,3 +50,4 @@ def add_product(request):
             form = ProductForm()
 
         return render(request, 'vendor/add_product.html', {'form': form})
+

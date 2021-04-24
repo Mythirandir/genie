@@ -21,10 +21,10 @@ PAYSTACK_SECRET_KEY = 'sk_test_6466ea8e25f5f9d0a0ff5696ac838816340ab750'
 
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'vendor_admin'
-LOGOUT_REDIRECT_URL = 'home'
+LOGOUT_REDIRECT_URL = 'frontpage'
 
 SESSION_COOKIE_AGE = 86400
-CAR__SESSION_ID = 'cart'
+CART_SESSION_ID = 'cart'
 
 # Application definition
 

@@ -1,11 +1,11 @@
 from django.conf import settings
-from apps.product.models import Product
 
+from apps.product.models import Product
 
 class Cart(object):
     def __init__(self, request):
         self.session = request.session
-        cart = self.session.get[settings.CART_SESSION_ID]
+        cart = self.session.get(settings.CART_SESSION_ID)
 
         if not cart:
             cart = self.session[settings.CART_SESSION_ID] = {}
@@ -31,9 +31,9 @@ class Cart(object):
             self.cart[product_id] = {'quantity': 1, 'id': product_id}
 
         if update_quantity:
-            self.cart[product_id] ['quantity'] += int(quantity)
+            self.cart[product_id]['quantity'] += int(quantity)
 
-            if self.cart[product_id] ['quantity'] ==0:
+            if self.cart[product_id]['quantity'] == 0:
                 self.remove(product_id)
 
         self.save()
@@ -53,6 +53,6 @@ class Cart(object):
 
     def get_total_cost(self):
         for p in self.cart.keys():
-            self.cart[str(p)] ['product'] = Product.objects.get(pk=p)
+            self.cart[str(p)]['product'] = Product.objects.get(pk=p)
 
-        return sum(item['quantity'] * item['product'].ptice for item in self.cart.values())
+        return sum(item['quantity'] * item['product'].price for item in self.cart.values())
