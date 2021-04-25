@@ -9,9 +9,9 @@ from apps.cart.cart import Cart
 
 def search(request):
     query = request.GET.get('query', '')
-    products = Product.objects.filter(Q(title__icontains=query) | Q(descriptio__icontains=query))
+    products = Product.objects.filter(Q(title__icontains=query) | Q(description__icontains=query))
 
-    return render(request, 'product/search.html', {'products': products, 'query': query})
+    return render(request, 'products/search.html', {'products': products, 'query': query})
 
 
 def product(request, category_slug, product_slug):
