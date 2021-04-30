@@ -1,0 +1,42 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Personal admin | {% endblock %}
+
+{% block content %}
+    <div class="box">
+        <h1 class="title">Persona admin - {{ user.username }}</h1>
+
+        <hr>
+
+<!--         -->
+        <a href="{% url 'persona_logout' %}" class="button is-danger is-uppercase">Log out</a>
+    </div>
+
+    <div class="box">
+        <h2 class="is-size-3 mb-4">My Events</h2>
+
+        <a href="{% url 'add_event' %}" class="button is-dark is-uppercase mb-6">Add Events</a>
+
+        {% if events %}
+            <table class="table is-fullwidth">
+                <thead>
+                    <tr>
+                        <th>Events</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for event in events %}
+                        <tr>
+                            <td><a href="{% url 'product' product.category.slug product.slug %}">{{ event_title }}</a></td>
+                            <td>${{ event }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>You don't have any products yet...</p>
+        {% endif %}
+    </div>
+{% endblock %}

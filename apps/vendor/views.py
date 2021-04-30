@@ -88,7 +88,7 @@ def edit_vendor(request):
 def vendors(request):
     vendors = Vendor.objects.all()
 
-    return render(request, 'vendor/vendors.html', {'vendors': vendors})
+    return render(request, 'vendor/add_event.html', {'vendors': vendors})
 
 
 def vendor(request, vendor_id):
