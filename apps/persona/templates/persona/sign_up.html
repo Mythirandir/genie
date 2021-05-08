@@ -8,16 +8,17 @@
 <form method="POST" action=".">
     {% csrf_token %}
     {{ form.as_p }}
-
+    {{ form.errors }}
     <div class="field">
         <div class="control">
             <button class="button is-dark is-uppercase">Sign Up</button>
         </div>
     </div>
 
-</form>>
+</form>
 
 <hr>
 <h2 class="subtitle"> Already have an account?</h2>
-<a href="{% url 'login' %}">Log in</a>
+<a href="{% url 'login' %}">Log in</a> <br>
+<a href="{% url 'login_persona' %}">Log in as User</a>
 {% endblock %}

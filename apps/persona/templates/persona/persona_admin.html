@@ -23,20 +23,22 @@
                     <tr>
                         <th>Events</th>
                         <th>Date</th>
+                        <th>Delete</th>
                     </tr>
                 </thead>
 
                 <tbody>
-                    {% for event in events %}
+                    {% for events in events %}
                         <tr>
-                            <td><a href="{% url 'product' product.category.slug product.slug %}">{{ event_title }}</a></td>
-                            <td>${{ event }}</td>
+                            <td><a href="{% url 'view_event' events.pk %}">{{ events.event_name }}</a></td>
+                            <td>{{ events.event_date }}</td>
+                            <td><a href="/" class="delete">Remove</a></td>
                         </tr>
                     {% endfor %}
                 </tbody>
             </table>
         {% else %}
-            <p>You don't have any products yet...</p>
+            <p>You don't have any events yet...</p>
         {% endif %}
     </div>
 {% endblock %}

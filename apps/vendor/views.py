@@ -4,7 +4,6 @@ from django.contrib.auth.forms import UserCreationForm
 from django.utils.text import slugify
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Vendor
-from apps.product.models import Product
 from .forms import ProductForm
 
 
@@ -62,7 +61,6 @@ def add_product(request):
         form = ProductForm()
 
     return render(request, 'vendor/add_product.html', {'form': form})
-
 
 
 @login_required

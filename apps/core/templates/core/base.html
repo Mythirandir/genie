@@ -65,9 +65,12 @@
 
             {% if request.user.is_authenticated %}
                 <a href="{% url 'vendor_admin' %}">Vendor admin</a>
+                <a href="{% url 'persona_logout' %}" class="button is-danger is-uppercase">Log out</a>
+            <hr>
             {% else %}
-                <a href="{% url 'become_vendor' %}">Sign up as a Vendor</a>
-                <a href="{% url 'signup_persona' %}">Sign up as a User</a>
+                <a href="{% url 'become_vendor' %}">Sign up as a Vendor</a> <br>
+                <a href="{% url 'signup_persona' %}">Sign up as a User</a> <br>
+                <a href="{% url 'login_persona' %}">Login as a User</a>
             {% endif %}
 
 

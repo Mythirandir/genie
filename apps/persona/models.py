@@ -1,7 +1,6 @@
-from django.contrib.auth.models import User
 from django.db import models
-from apps.product.models import Product
-from django.conf import settings
+from apps.order.models import OrderItem
+from datetime import datetime
 
 
 class EventType(models.Model):
@@ -15,13 +14,13 @@ class EventType(models.Model):
 
 
 class Event(models.Model):
-    event_creator = models.ForeignKey(User, default=User, on_delete=models.PROTECT)
     event_name = models.CharField(max_length=250)
     event_description = models.CharField(max_length=250)
     event_location = models.CharField(max_length=250)
     event_type = models.ForeignKey(EventType, related_name='type', on_delete=models.CASCADE)
-    event_date = models.DateTimeField()
-    event_cart = models.ForeignKey(Product, related_name='product', on_delete=models.CASCADE)
+    event_date = models.DateTimeField(default=datetime.now())
+    event_slug = models.SlugField(max_length=255, unique=True)
+    event_cart = models.ForeignKey(OrderItem, on_delete=models.CASCADE)
 
     class Meta:
         verbose_name_plural = "Events"

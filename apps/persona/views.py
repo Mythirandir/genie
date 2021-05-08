@@ -1,13 +1,14 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import Event
 from django.contrib.auth import logout
-from django.views.generic import CreateView, UpdateView, DeleteView, DetailView, ListView
 from .forms import NewUserForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, authenticate
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
+from .forms import EventForm
+from apps.product.models import Product
+from apps.cart.cart import Cart
 
 
 def register(request):
@@ -59,45 +60,49 @@ def logout_request(request):
 
 @login_required
 def persona(request):
-    return render(request=request,
-                  template_name="persona/persona_admin.html",
-                  )
+    events = Event.objects.all()
+    return render(request, "persona/persona_admin.html", {'events': events})
 
 
 @login_required
-def event(request):
-    events = Event.objects.all()
+def add_events(request):
+    newest_products = Product.objects.all()[0:8]
+    cart = Cart
 
-    return render(request, 'persona/events.html', {'events': events})
+    if request.method == 'POST':
+        form = EventForm(request.POST)
 
+        if form.is_valid():
+            event = form.save(commit=False)
+            event.save()
+            return redirect('persona_admin')
+    else:
+        form = EventForm()
 
-# @login_required
-class AddEvents(CreateView):
-    model = Event
-    fields = [
-        'event_creator',
-        'event_name',
-        'event_description',
-        'event_location',
-        'event_type',
-        'event_date',
-        'event_cart',
-    ]
-    template_name = 'persona/add_event.html'
-    success_url = 'event_list'
+    return render(request, 'persona/add_event.html', {'form': form, 'newest_products': newest_products, 'cart': cart})
 
 
-class EventList(ListView):
-    model = Event
-    fields = [
-        User,
-        'event_name',
-        'event_description',
-        'event_location',
-        'event_type',
-        'event_date',
-        'event_cart',
-    ]
-    template_name = 'persona/event_list.html'
+@login_required
+def view_event(request, pk):
+    event = get_object_or_404(Event, id=pk)
+    return render(request, 'persona/event_detail.html', {'event': event})
 
 
+@login_required
+def update_event(request, pk):
+    event = get_object_or_404(Event, id=pk)
+    form = EventForm(request.POST or None, instance=event)
+    if form.is_valid():
+        form.save()
+        return redirect('persona_admin')
+    return render(request, 'persona/update_event.html', {'form': form})
+
+
+@login_required
+def delete_event(request, pk):
+    context = {}
+    event = get_object_or_404(Event, id=pk)
+    if request.method == 'POST':
+        event.delete()
+        return redirect('persona_admin')
+    return render(request, 'persona/delete_event.html', context)

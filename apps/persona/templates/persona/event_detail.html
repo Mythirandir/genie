@@ -1,0 +1,26 @@
+{% extends 'core/base.html' %}
+{% block title %} {{ user.username }} | Genie {% endblock %}
+{% block content %}
+
+{% if event.event_type == 'Birthday' %}
+
+<figure class="image is-4by3 mb-4">
+    <p>Happy Birthday {{ user.username}}</p>
+</figure>
+{% endif %}
+
+<h2 class="title">{{ event.event_name }} </h2>
+<p class="mb-6"> <p>Event Details</p><span class="tag is-dark">{{ event.event_date }}</span> </p>
+<p class="mb-6"> <span class="tag is-dark">{{ event.event_type }}</span> </p>
+<p>{{ event.event_description }}</p>
+<p>{{ event.event_location }}</p>
+<hr>
+{% if messages %}
+    {% for message in messages %}
+<div class="notification is-succes is-toast">{{ message }}</div>
+    {% endfor %}
+{% endif %}
+<a href="{% url 'update_event' event.pk %}" class="button is-dark is-uppercase">Update Event</a>
+<a href="{% url 'delete_view' event.pk %}" class="button is-danger is-uppercase">Delete Event</a>
+
+{% endblock %}
